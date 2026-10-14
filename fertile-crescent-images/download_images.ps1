@@ -1,0 +1,99 @@
+# Downloads the 70 storyboard images, names each by its script timestamp
+# (e.g. 1-32.png = 1:32), and zips them into fertile-crescent-images.zip.
+# Run: right-click > "Run with PowerShell", or in PowerShell:
+#   powershell -ExecutionPolicy Bypass -File .\download_images.ps1
+
+$ErrorActionPreference = "Stop"
+$ProgressPreference = "SilentlyContinue"
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+$here = Split-Path -Parent $MyInvocation.MyCommand.Path
+$outDir = Join-Path $here "fertile-crescent-images"
+$zipPath = Join-Path $here "fertile-crescent-images.zip"
+New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+
+$images = [ordered]@{
+    "0-00.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121635_ee771089-a6dd-4457-b482-5b9096682e4d.png"
+    "0-05.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121735_6e3f2943-3fc2-453f-abbe-f0d2c3c0e42a.png"
+    "0-12.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121635_db6a0785-9c39-4a88-9940-3f240c78420a.png"
+    "0-17.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121635_1494cd4f-b9e1-40a4-a895-3bd49be82399.png"
+    "0-23.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121734_53afc95f-9da9-4214-8efa-6f9e9b45d270.png"
+    "0-28.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121734_c7b0dde4-1ab4-442e-94f7-a7fd42614bb7.png"
+    "0-34.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121634_56a9d6cb-594b-4470-9bc8-e1a092f12894.png"
+    "0-41.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121734_ff2acb7c-1335-473d-84d2-6f5a4f965841.png"
+    "0-47.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121754_b0457061-b72e-4970-887b-b7a42960b442.png"
+    "0-54.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121830_1e0e5cc2-559d-420f-8b3d-596f0417ab75.png"
+    "1-00.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121753_56965d5b-9d65-4476-a813-e2a3d4e11395.png"
+    "1-09.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121754_a4c41ded-15e8-4364-bdd2-91f6130df23f.png"
+    "1-15.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121830_3823f7b0-dba7-450e-b739-11de55760da2.png"
+    "1-21.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121830_a924c1d9-c66e-4672-bfc4-b0e7ad38c890.png"
+    "1-26.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121829_ab3a694e-5b9a-4599-9f5f-1bbe98629f22.png"
+    "1-32.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121909_2d305ae2-5e2d-4d2a-b3f5-fa2c708a4b54.png"
+    "1-39.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121906_204c6464-a655-454c-8442-8ed1bb3ecf30.png"
+    "1-47.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121907_7d09c15a-7c96-438e-9d1c-d4924794e81d.png"
+    "1-52.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121907_57fdd10b-e23e-4bf8-8015-8bb66f2d9780.png"
+    "1-57.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121942_d02096b5-2cb5-40a2-a950-2f314ca957b0.png"
+    "2-04.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121944_4f8ecbd4-07e7-49c9-857e-888f444d90e1.png"
+    "2-10.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121942_7470d504-1575-4a63-b440-aac4cf949c85.png"
+    "2-14.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_121942_3055efa2-5a76-4d60-b6af-f10e823a4bab.png"
+    "2-20.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122025_e57b14ea-8a70-4695-9a62-db004f03ecb1.png"
+    "2-27.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122023_025feef4-269d-4332-849d-96f16c7cd989.png"
+    "2-32.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122023_4bcfaf36-85d6-4668-bc73-0d4a66b1b5fa.png"
+    "2-38.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122023_57649b3c-be37-4af3-a22e-4b56eabd1140.png"
+    "2-45.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122102_d255df3f-71d4-42a0-9e6e-7ecee8457419.png"
+    "2-51.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122102_d814719e-16cd-4149-9a03-d839239c24c3.png"
+    "2-58.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122101_0e531a2e-97d9-47f5-8e99-95d2f423d212.png"
+    "3-04.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122103_54e3d090-55c2-4e0a-8ebc-59db3dae8ccb.png"
+    "3-10.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122141_bbc0339d-2e7b-4d8f-b234-23f458208105.png"
+    "3-15.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122142_25fe95fd-62a5-4689-a78d-fb8c8f0c93e8.png"
+    "3-22.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122142_33790cf3-047d-4b29-aaa2-561f5239a1b9.png"
+    "3-29.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122141_d1cca5c5-ca99-4cad-afb4-22c10084219e.png"
+    "3-34.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122220_2fce925b-18de-4e25-9052-2d5b8f848e1c.png"
+    "3-41.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122219_4f1af922-e7f2-4134-ad5a-ed75d2f77e42.png"
+    "3-47.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122219_e4801d07-7cf7-4c2a-a337-b7b6af3f763e.png"
+    "3-52.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122218_ae858574-3d95-416d-8dcc-12d7d2d8796b.png"
+    "3-59.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122256_2f4ee8d9-d293-4c57-86be-fb6f75e09602.png"
+    "4-06.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122255_27d50236-ce51-426f-96d6-a0c0783acc1f.png"
+    "4-12.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122255_bfb808a7-e2ee-40dd-9793-5f2cbd226e77.png"
+    "4-20.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122255_4eada48a-0074-466f-b1e2-519d08453837.png"
+    "4-27.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122329_f70c8965-d3c4-4bf7-a9ea-409b61a79ec0.png"
+    "4-33.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122329_2672c54a-817a-4b3f-949d-5be83ce765f2.png"
+    "4-40.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122329_892933cb-f747-4978-b281-262109d1669c.png"
+    "4-45.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122330_9f2fe055-3690-43ca-a411-c564bdf7e2d1.png"
+    "4-50.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122409_1bfd4f58-0904-4d87-88f5-750515e484af.png"
+    "4-57.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122409_00de2ab0-5814-4dd0-831a-b1625e210162.png"
+    "5-03.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122410_c5a1b8a6-2a3c-4813-bad7-c9d7eb9d2937.png"
+    "5-11.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122410_a8919b65-35e1-4cea-ba52-3428397e09f2.png"
+    "5-18.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122449_549d8642-6e99-43eb-957b-92c5b794aa0f.png"
+    "5-26.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122449_f8e4c0a9-4dc0-4eda-939d-f7600df56516.png"
+    "5-31.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122446_74eec86c-3331-4e26-829c-2bfbee2e3084.png"
+    "5-37.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122448_712b94e9-a144-4325-8670-f5e5807f957c.png"
+    "5-43.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122526_e7fb9de5-b598-48eb-b424-99486d42275d.png"
+    "5-49.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122526_b6443b1e-c22e-44a2-9117-7e79ef3800b6.png"
+    "5-56.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122527_fdbf4916-287a-4725-b3bc-84aba1b10ce7.png"
+    "6-01.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122526_0b5d4d29-ff4f-4f3f-b213-9d5347516c14.png"
+    "6-08.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122601_fd211108-c20d-4fb1-91d6-29a183d50f18.png"
+    "6-14.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122602_27441f5f-a696-41c0-b473-ed89cf8b3c75.png"
+    "6-21.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122601_bfb160bf-d379-4174-8c37-09ae4b1b847c.png"
+    "6-27.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122601_d7a6c835-29a1-4f09-82a5-9f7e9cb9f8e6.png"
+    "6-35.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122635_fa8db195-cd0b-4c5e-9190-2d5585f6b7fc.png"
+    "6-40.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122636_26827865-7536-4260-8d86-fe2d460ff801.png"
+    "6-46.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122637_92297521-944d-4c75-9cc8-95c30e9ed861.png"
+    "6-52.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122635_14a937b5-be36-4769-9b67-32d4dd0e60ab.png"
+    "7-00.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122708_2a8df5a8-41cd-453d-8c1c-0b94e7bbbdaf.png"
+    "7-06.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122708_56e08262-64b6-44d6-bb06-2beda3763af8.png"
+    "7-10.png" = "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261014_122707_79560d1d-2ff7-420b-a216-2d728274398d.png"
+}
+
+$i = 0
+foreach ($name in $images.Keys) {
+    $i++
+    Write-Host ("[{0}/{1}] {2}" -f $i, $images.Count, $name)
+    Invoke-WebRequest -Uri $images[$name] -OutFile (Join-Path $outDir $name) -UseBasicParsing
+}
+
+if (Test-Path $zipPath) { Remove-Item $zipPath }
+Compress-Archive -Path (Join-Path $outDir "*.png") -DestinationPath $zipPath
+Write-Host ""
+Write-Host "Done. Images saved to $outDir"
+Write-Host "Zip file: $zipPath"
