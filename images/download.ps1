@@ -76,5 +76,5 @@ Invoke-WebRequest -Uri "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6Yw
 Invoke-WebRequest -Uri "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261017_114902_15d8bf64-d3e8-4dc9-926a-df1e748af567.png" -OutFile "1-33_2.png"
 Invoke-WebRequest -Uri "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261017_114930_4c70ce46-1a7b-4c81-9999-a66b4f26ecbd.png" -OutFile "1-34_1.png"
 Invoke-WebRequest -Uri "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261017_114930_06ba3004-741d-4c90-9e88-5942905c254c.png" -OutFile "1-34_2.png"
-Invoke-WebRequest -Uri "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261017_145609_02c134e4-02d1-4368-9b64-c4e1378a61e2.png" -OutFile "thumbnail.png"
+Invoke-WebRequest -Uri "https://d8j0ntlcm91z4.cloudfront.net/user_3Jm4r4CEVOG6YwGUgkdoXfgEE27/hf_20261017_145958_608ebc1b-2864-4b28-bac2-98704e13543c.png" -OutFile "thumbnail.png"
 Write-Host "Downloaded 76 images + thumbnail."
