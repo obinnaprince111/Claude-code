@@ -1,0 +1,85 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1920px;overflow:hidden}
+body{
+  font-family:"Inter Display","Inter",sans-serif;
+  background:
+    radial-gradient(900px 900px at 50% 52%, rgba(255,40,140,.55), transparent 60%),
+    radial-gradient(700px 600px at 50% 100%, rgba(255,190,0,.25), transparent 70%),
+    linear-gradient(180deg,#0b0420 0%,#1a0633 50%,#07020f 100%);
+  color:#fff; position:relative;
+}
+/* light rays */
+.rays{position:absolute;inset:0;
+  background:repeating-conic-gradient(from 0deg at 50% 54%, rgba(255,255,255,.06) 0 6deg, transparent 6deg 18deg);
+  -webkit-mask:radial-gradient(circle at 50% 54%, #000 0 30%, transparent 70%);}
+.top{position:absolute;top:120px;left:0;right:0;text-align:center}
+.kicker{font-weight:800;font-size:58px;letter-spacing:2px;text-transform:uppercase;color:#fff;
+  text-shadow:0 6px 0 #000, 0 0 30px rgba(0,0,0,.6)}
+.big{font-weight:900;font-size:168px;line-height:.9;letter-spacing:-4px;text-transform:uppercase;margin-top:14px;
+  background:linear-gradient(180deg,#fff6a8 0%,#ffd000 45%,#ff8a00 100%);-webkit-background-clip:text;color:transparent;
+  filter:drop-shadow(0 10px 0 #5a0030) drop-shadow(0 0 40px rgba(255,200,0,.55));}
+
+/* phone */
+.phone-wrap{position:absolute;left:50%;top:560px;transform:translateX(-50%) rotate(-6deg);width:520px;height:900px}
+.phone{position:absolute;inset:0;border-radius:78px;background:#111;
+  box-shadow:0 0 0 14px #2a2a35, 0 0 0 18px #555, 0 40px 120px rgba(0,0,0,.8), 0 0 140px rgba(255,40,160,.7);}
+.screen{position:absolute;inset:22px;border-radius:60px;overflow:hidden;
+  background:linear-gradient(180deg,#2b0a4a,#120321)}
+.notch{position:absolute;top:22px;left:50%;transform:translateX(-50%);width:150px;height:40px;background:#000;border-radius:24px;z-index:3}
+.jackpot{position:absolute;top:100px;left:0;right:0;text-align:center;font-weight:900;font-size:56px;color:#ff3d9a;
+  letter-spacing:3px;text-shadow:0 0 18px #ff3d9a}
+.lights{position:absolute;top:180px;left:40px;right:40px;display:flex;justify-content:space-between}
+.lights i{width:22px;height:22px;border-radius:50%;background:#ffd000;box-shadow:0 0 14px #ffd000}
+.lights i:nth-child(even){background:#ff3d9a;box-shadow:0 0 14px #ff3d9a}
+.reels{position:absolute;top:240px;left:34px;right:34px;height:300px;display:flex;gap:14px;
+  padding:14px;border-radius:28px;background:#ffd000;box-shadow:inset 0 0 0 6px #ff8a00, 0 0 40px rgba(255,208,0,.6)}
+.reel{flex:1;border-radius:18px;background:linear-gradient(180deg,#bbb 0%,#fff 25%,#fff 75%,#bbb 100%);
+  min-width:0;display:flex;align-items:center;justify-content:center;font-size:96px;font-family:"Noto Color Emoji"}
+.payline{position:absolute;top:390px;left:20px;right:20px;height:6px;background:#ff1f6a;border-radius:3px;box-shadow:0 0 16px #ff1f6a;opacity:.85}
+.swipe{position:absolute;bottom:120px;left:0;right:0;text-align:center}
+.swipe .hand{font-family:"Noto Color Emoji";font-size:130px;display:block;transform:rotate(-10deg)}
+.swipe .lbl{font-weight:800;font-size:40px;letter-spacing:6px;color:#fff;opacity:.9}
+/* lever */
+.lever{position:absolute;right:-118px;top:150px;width:120px;height:380px}
+.lever .base{position:absolute;left:0;top:250px;width:60px;height:110px;background:#666;border-radius:0 24px 24px 0;box-shadow:inset 0 0 0 6px #444}
+.lever .rod{position:absolute;left:62px;top:40px;width:22px;height:290px;background:linear-gradient(90deg,#999,#eee,#999);border-radius:11px}
+.lever .ball{position:absolute;left:30px;top:-30px;width:90px;height:90px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ff9cc8,#ff1f6a 55%,#8a0033);box-shadow:0 0 40px rgba(255,31,106,.9)}
+/* bottom */
+.bottom{position:absolute;bottom:150px;left:0;right:0;text-align:center}
+.tag{display:inline-block;background:#fff;color:#0b0420;font-weight:900;font-size:64px;padding:18px 40px;border-radius:20px;
+  transform:rotate(-2deg);box-shadow:0 10px 0 #ff1f6a}
+.sub{margin-top:40px;font-weight:800;font-size:52px;color:#fff;text-shadow:0 5px 0 #000}
+.sub s{text-decoration-thickness:8px;text-decoration-color:#ff1f6a}
+.sub b{color:#ffd000}
+</style></head>
+<body>
+<div class="rays"></div>
+<div class="top">
+  <div class="kicker">Your phone is a</div>
+  <div class="big">Slot<br>Machine</div>
+</div>
+
+<div class="phone-wrap">
+  <div class="phone"></div>
+  <div class="screen">
+    <div class="jackpot">NEW ALERT</div>
+    <div class="lights"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="reels">
+      <div class="reel">❤️</div><div class="reel">💬</div><div class="reel">😂</div>
+    </div>
+    <div class="payline"></div>
+    <div class="swipe"><span class="hand">👆</span><span class="lbl">SWIPE AGAIN</span></div>
+  </div>
+  <div class="notch"></div>
+  <div class="lever"><div class="base"></div><div class="rod"></div><div class="ball"></div></div>
+</div>
+
+<div class="bottom">
+  <div class="tag">WHY YOU CAN'T STOP</div>
+  <div class="sub">It's not <s>willpower</s>. It's <b>dopamine.</b></div>
+</div>
+</body></html>
